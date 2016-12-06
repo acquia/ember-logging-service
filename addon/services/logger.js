@@ -298,20 +298,6 @@ export default Ember.Service.extend({
    * @param  {Object} eventData Additional data associated with the event.
    */
   _sendEvent(level, tag, eventName, eventData) {
-    // We only care about one level and they are all simple values.
-    // Object.values() is not supported in all of our supported browsers yet.
-    let objectValues = (obj) => {
-      let values = [];
-      for (let name in obj) {
-        if (!obj.hasOwnProperty(name)) {
-          continue;
-        }
-        values.push(obj[name]);
-      }
-      return values;
-    };
-    Ember.assert(`Logger methods must be passed a registered tag.  Not found: ${tag}`, objectValues(this.tags).includes(tag));
-
     let callbacks = this._getCallbacks(level, tag);
     if (Ember.isEmpty(callbacks)) {
       return;
