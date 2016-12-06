@@ -210,7 +210,8 @@ export default Ember.Service.extend({
    * @param  {Array} tags  An array of tag names.
    */
   registerTags(tags) {
-    let levels = this.get('levels');
+    let loggerTags = this.get('tags');
+    let levels = Object.keys(this.get('levels'));
     let map = this._consumerMap;
     levels.forEach((level) => {
       if (this.levels.hasOwnProperty(level)) {
@@ -218,9 +219,11 @@ export default Ember.Service.extend({
           if (!map[level].hasOwnProperty(tag)) {
             map[level][tag] = [];
           }
+          loggerTags[tag] = tag;
         });
       }
     });
+    this.set('tags', loggerTags);
     this.set('_consumerMap', map);
   },
 
