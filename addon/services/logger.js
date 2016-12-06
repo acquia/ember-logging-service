@@ -148,10 +148,10 @@ export default Ember.Service.extend({
     this._callbackMap[consumerId] = callback;
     // Add context callbacks.
     if (Ember.typeOf(applicationContext) === 'function') {
-      this._applicationContextMap[consumerId] = applicationContext;
+      this.registerApplicationContextCallback(consumerId, applicationContext);
     }
     if (Ember.typeOf(userContext) === 'function') {
-      this._userContextMap[consumerId] = userContext;
+      this.registerUserContextCallback(consumerId, userContext);
     }
   },
 
@@ -176,6 +176,30 @@ export default Ember.Service.extend({
     delete this._callbackMap[consumerId];
     delete this._applicationContextMap[consumerId];
     delete this._userContextMap[consumerId];
+  },
+
+  /**
+   * Registers a callback that will provide application context.
+   * @method  registerApplicationContextCallback
+   * @public
+   * @param  {string}         id       A unique identifier for the provider.
+   * @param  {Function|Array} callback A callback or array acceptable by
+   *                                   _executeCallback
+   */
+  registerApplicationContextCallback(id, callback) {
+    this._applicationContextMap[id] = callback;
+  },
+
+  /**
+   * Registers a callback that will provide user context.
+   * @method  registerUserContextCallback
+   * @public
+   * @param  {string}         id       A unique identifier for the provider.
+   * @param  {Function|Array} callback A callback or array acceptable by
+   *                                   _executeCallback
+   */
+  registerUserContextCallback(id, callback) {
+    this._userContextMap[id] = callback;
   },
 
   /**
