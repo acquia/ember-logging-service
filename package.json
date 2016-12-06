@@ -1,12 +1,13 @@
 {
   "name": "ember-logging-service",
-  "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.0.1",
+  "description": "A generalized logging service.",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "logging"
   ],
   "license": "MIT",
-  "author": "",
+  "author": "Lisa Backer",
   "directories": {
     "doc": "doc",
     "test": "tests"
