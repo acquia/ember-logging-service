@@ -147,10 +147,10 @@ export default Ember.Service.extend({
     });
     this._callbackMap[consumerId] = callback;
     // Add context callbacks.
-    if (Ember.typeOf(applicationContext) === 'function') {
+    if (applicationContext) {
       this.registerApplicationContextCallback(consumerId, applicationContext);
     }
-    if (Ember.typeOf(userContext) === 'function') {
+    if (userContext) {
       this.registerUserContextCallback(consumerId, userContext);
     }
   },
