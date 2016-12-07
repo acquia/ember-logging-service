@@ -7,10 +7,6 @@ module('Unit | Service | logger', {
   beforeEach() {
     service = Logger.create();
     service.set('currentEnvironment', 'test');
-    // Shouldn't be necessary but somehow the service isn't fully destroyed
-    // after each test.
-    service.set('tags', {});
-    service.set('events', {});
   },
   afterEach() {
     Ember.run(service, 'destroy');

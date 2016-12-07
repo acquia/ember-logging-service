@@ -19,7 +19,7 @@ export default Ember.Service.extend({
    * @type {Object}
    * @public
    */
-  events: {},
+  events: null,
 
   /**
    * All of the available tag options for events.
@@ -27,7 +27,7 @@ export default Ember.Service.extend({
    * @type {Object}
    * @public
    */
-  tags: {},
+  tags: null,
 
   /**
    * All of the available severity levels for an event.
@@ -35,11 +35,7 @@ export default Ember.Service.extend({
    * @type {Object}
    * @public
    */
-  levels: {
-    info: 'info',
-    warning: 'warning',
-    error: 'error'
-  },
+  levels: null,
 
   /**
    * A mapping of consumers to their callback
@@ -47,7 +43,7 @@ export default Ember.Service.extend({
    * @type {Object}
    * @private
    */
-  _callbackMap: {},
+  _callbackMap: null,
 
   /**
    * A mapping of levels, tags, and listening consumers
@@ -55,7 +51,7 @@ export default Ember.Service.extend({
    * @type {Object}
    * @private
    */
-  _consumerMap: {},
+  _consumerMap: null,
 
   /**
    * Application context callbacks mapped by consumer.
@@ -63,7 +59,7 @@ export default Ember.Service.extend({
    * @type {Object}
    * @private
    */
-  _applicationContextMap: {},
+  _applicationContextMap: null,
 
   /**
    * User context callbacks mapped by consumer.
@@ -71,7 +67,7 @@ export default Ember.Service.extend({
    * @type {Object}
    * @private
    */
-  _userContextMap: {},
+  _userContextMap: null,
 
   /**
    * Override the init function to set up the consumer map.
@@ -80,6 +76,17 @@ export default Ember.Service.extend({
    */
   init() {
     this._super(...arguments);
+    this.events = {};
+    this.tags = {};
+    this.levels = {
+      info: 'info',
+      warning: 'warning',
+      error: 'error'
+    };
+    this._consumerMap = {};
+    this._callbackMap = {};
+    this._applicationContextMap = {};
+    this._userContextMap = {};
 
     // Set up the levels for consumer listener map.
     let levels = Object.keys(this.levels);
