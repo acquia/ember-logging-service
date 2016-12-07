@@ -12,6 +12,10 @@ export default function setupErrorMonitoring(instance, config) {
     }
   });
 
+  if (Ember.testing === true) {
+    return;
+  }
+
   Ember.onerror = function(error) {
     logError(error, logger);
   };
