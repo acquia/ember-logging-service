@@ -6,6 +6,7 @@ let service;
 module('Unit | Service | logger', {
   beforeEach() {
     service = Logger.create();
+    service.set('currentEnvironment', 'test');
     // Shouldn't be necessary but somehow the service isn't fully destroyed
     // after each test.
     service.set('tags', {});
@@ -39,7 +40,6 @@ test('it has publicly accessible methods.', function(assert) {
 test('it can register and unregister a consumer.', function(assert) {
   assert.expect(10);
 
-  service.set('currentEnvironment', 'test');
   service.registerConsumer('grover', 'groverCallback', 'info', 'interaction', 'test', 'appContext', 'userContext');
 
   let expectedTags = { 'interaction': 'interaction' };
@@ -80,7 +80,6 @@ test('it can execute a callback for a registered ConsumerID.', function(assert) 
   let userContextCallback = () => {
     return { snuffy: 'imaginary friend' };
   };
-  service.set('currentEnvironment', 'test');
   service.registerConsumer('grover', happyCallback, ['error', 'warning', 'info'], ['interaction', 'user'], 'test');
   service.registerConsumer('oscar', sadCallback, ['error', 'warning', 'info'], 'error', 'test');
   service.registerConsumer('snuffy', sadCallback, ['error', 'warning', 'info'], ['interaction', 'user'], ['production', 'development']);

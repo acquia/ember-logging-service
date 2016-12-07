@@ -133,7 +133,7 @@ export default Ember.Service.extend({
     tags = Ember.isArray(tags) ? tags : [tags];
     environments = Ember.isArray(environments) ? environments : [environments];
     // Check if the consumer is registering for the current environment.
-    if (!environments.indexOf(this.get('currentEnvironment') >= 0)) {
+    if (environments.indexOf(this.get('currentEnvironment')) === -1) {
       return;
     }
     // Build consumerMap and callbackMap.
