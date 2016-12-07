@@ -112,14 +112,14 @@ export default Ember.Service.extend({
    *                                             the callback function and the
    *                                             second item is the scope for
    *                                             'this' within the function.
-   *                                             Callback should expect 
+   *                                             Callback should expect
    *                                             callback(event, context)
    * @param  {Mixed}          levels             A string or array of levels to
    *                                             listen to.
    * @param  {Mixed}          tags               A string or array of tags to
    *                                             listen to, one of this.tags.
-   * @param  {Mixed}          environments       A string or array of 
-   *                                             environments, one of 
+   * @param  {Mixed}          environments       A string or array of
+   *                                             environments, one of
    *                                             development, test, production
    * @param  {Function}       applicationContext An optional application context
    *                                             callback which will be executed
@@ -241,7 +241,7 @@ export default Ember.Service.extend({
    * constant even when event names are adjusted.
    *
    * Any tags included in the event object are added to the registered tags.
-   * 
+   *
    * @param  {Object} events  An object that is keyed by tags.  Within each tag
    *                          is an object of events with the keys as the
    *                          machine-readable name and the value as the human
@@ -370,7 +370,7 @@ export default Ember.Service.extend({
   },
 
   /**
-   * Helper function to execute a callback.  The callback can either be 
+   * Helper function to execute a callback.  The callback can either be
    * a function or an array where the first item is the function and the second
    * is the scope.
    * @method _executeCallback
