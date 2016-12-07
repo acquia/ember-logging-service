@@ -378,7 +378,7 @@ export default Ember.Service.extend({
     if (Ember.isArray(callback)) {
       [func, scope] = callback;
     }
-    if (Ember.typeOf(callback) !== 'function') {
+    if (Ember.typeOf(func) !== 'function') {
       return;
     }
     return func.apply(scope, args);
