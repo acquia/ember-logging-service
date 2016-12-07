@@ -247,7 +247,7 @@ export default Ember.Service.extend({
     this.registerTags(tags);
     tags.forEach((tag) => {
       logEvents[tag] = logEvents[tag] || {};
-      logEvents[tag] = Ember.assign(logEvents[tag], events[tag]);
+      logEvents[tag] = Object.assign(logEvents[tag], events[tag]);
     });
     this.set('events', logEvents);
   },
