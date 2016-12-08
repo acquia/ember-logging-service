@@ -118,8 +118,13 @@ export default Ember.Service.extend({
    *                                             listen to.
    * @param  {Mixed}          tags               A string or array of tags to
    *                                             listen to, one of this.tags.
-   * @param  {Mixed}          environments       A string or array of
-   *                                             environments, one of
+   * @param  {Mixed}          environments       Optionally limit the consumer
+   *                                             to a single environment 
+   *                                             (string) or a list of
+   *                                             environments (array).  If not
+   *                                             present, the consumer will be
+   *                                             active for the current
+   *                                             environment.  If passed: one of
    *                                             development, test, production
    * @param  {Function}       applicationContext An optional application context
    *                                             callback which will be executed
@@ -138,10 +143,14 @@ export default Ember.Service.extend({
     // Convert strings parameters to an array.
     levels = Ember.isArray(levels) ? levels : [levels];
     tags = Ember.isArray(tags) ? tags : [tags];
-    environments = Ember.isArray(environments) ? environments : [environments];
-    // Check if the consumer is registering for the current environment.
-    if (environments.indexOf(this.get('currentEnvironment')) === -1) {
-      return;
+    // If environment is specified, then limit the consumer to the requested
+    // environment(s).
+    if (environments) {
+      environments = Ember.isArray(environments) ? environments : [environments];
+      // Check if the consumer is registering for the current environment.
+      if (environments.indexOf(this.get('currentEnvironment')) === -1) {
+        return;
+      }
     }
     // Build consumerMap and callbackMap.
     this.registerTags(tags);
