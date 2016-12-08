@@ -9,6 +9,21 @@ Example consumers include:
 * https://github.com/acquia/ember-logging-amplitude/ for Amplitide integration
 * https://github.com/acquia/ember-logging-bugsnag/ for Bugsnag integration
 
+# Basic usage
+The core functionality of ember-logging-service is a logging service that can
+be injected using Ember's standard dependency injection functionality.
+
+```
+import Ember from 'ember';
+
+export default Ember.Component.extend({
+  logger: Ember.inject.service(),
+
+  trackSomethingAwesome() {
+    this.get('logger').info('Something awesome happened!!!', { who: 'Kermit' });
+  }
+});
+```
 
 # Concepts
 ## Triggering events
@@ -82,6 +97,85 @@ When error handling is turned on, the logging service will automatically monitor
 any uncaught Ember or RSVP errors and send them as error level events.
 
 # Configuration
+To enable ember-logging-service for an environment, include the following
+configuration information in your `config/environment.js`:
+
+```
+ENV['ember-logging-service'] {
+  enabled: true
+}
+```
+
+To enable ember-logging-service to handle basic error monitoring for an 
+environment then include this additional property:
+
+```
+ENV['ember-logging-service'] {
+  enabled: true,
+  errorsEnabled: true
+}
+```
+
+## Constants
+It can be useful to refer to levels, tags, and events as variables rather than
+hard-coding the values in your code.  The service already provides the ability
+to refer to tags and levels by variable names rather than hard-coded strings.
+
+For example:
+* `this.get('logger.levels.info')`
+* `this.get('logger.levels.warn')`
+* `this.get('logger.levels.error')`
+
+If the logger is tracking the following tags: navigation, interaction, error:
+* `this.get('logger.tags.navigation')`
+* `this.get('logger.tags.interaction')`
+* `this.get('logger.tags.error')`
+
+Consider an example where you are tracking a user interaction event for a 
+usability tracking system as "Menu navigation", but for purposes of reporting, 
+you UX department now requires you to track the event as 
+"Interaction - navigation - menu".  If you had been tracking this event in
+multiple places as `this.get('logger').info(this.get('logger.tags.interaction'), 'Menu navigation')`
+you would need to update this event name in multiple places.
+
+You could handle this in a couple of ways:
+* Maintain a list of strings on paper :(
+* Create a configuration of events in JSON format
+* Utilize an Ember service to define constant values
+
+The logger service provides an optional mechanism to help with this.  If an
+object of event data is passed in the configuration, the logger will automatically
+register all of the tags and add the events into an object for easy reference.
+
+Example configuration:
+```
+ENV['ember-logging-service'] {
+  enabled: true,
+  events: {
+    navgiation: {
+      ABOUT: 'About us',
+      HOME: 'Home',
+      CONTACT: 'Contact'
+    },
+    muppets: {
+      KERMIT: 'Kermie',
+      PIGGY: 'Piggy',
+      SWEDISH_CHEF: 'Swedish Chef'
+    }
+  }
+}
+```
+With the above, all of the events will be available from the logger service
+based on their tag:
+
+```
+let logger = this.get('logger');
+console.log(logger.get('events.navigation.ABOUT')); // About us
+console.log(logger.get('events.muppets.KERMIT')); // Kermie
+```
+
+This is not required for setting up the logger service and is only provided
+as a convenience mechanism.
 
 # Developing for ember-logging-service
 
