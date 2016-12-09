@@ -1,12 +1,13 @@
 import Ember from 'ember';
 
 const {
-  assign,
   isArray,
   isEmpty,
   Service,
   typeOf
 } = Ember;
+
+const assign = Ember.assign || Ember.merge; // jscs:ignore
 
 export default Service.extend({
 
@@ -269,11 +270,11 @@ export default Service.extend({
    */
   registerEvents(events) {
     let tags = Object.keys(events);
-    let logEvents = this.get('events');
+    let logEvents = this.get('events') || {};
     this.registerTags(tags);
     tags.forEach((tag) => {
       logEvents[tag] = logEvents[tag] || {};
-      logEvents[tag] = Object.assign(logEvents[tag], events[tag]);
+      logEvents[tag] = assign(logEvents[tag], events[tag]);
     });
     this.set('events', logEvents);
   },
