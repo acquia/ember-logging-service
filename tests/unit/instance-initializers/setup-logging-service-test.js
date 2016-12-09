@@ -10,6 +10,7 @@ test('it configures the logger', function(assert) {
   let environmentMock = {
     environment: 'unit-testing',
     'ember-logging-service': {
+      enabled: true,
       events: {
         test: {
           MY_EVENT: 'my-event'
