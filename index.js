@@ -2,8 +2,5 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-logging-service',
-  isDevelopingAddon: function() {
-    return true;
-  }
+  name: 'ember-logging-service'
 };
