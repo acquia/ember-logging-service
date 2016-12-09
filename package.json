@@ -7,7 +7,7 @@
     "logging"
   ],
   "license": "MIT",
-  "author": "Lisa Backer",
+  "author": "Lisa Backer, Acquia",
   "directories": {
     "doc": "doc",
     "test": "tests"
