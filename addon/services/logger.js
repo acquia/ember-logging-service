@@ -1,6 +1,14 @@
 import Ember from 'ember';
 
-export default Ember.Service.extend({
+const {
+  assign,
+  isArray,
+  isEmpty,
+  Service,
+  typeOf
+} = Ember;
+
+export default Service.extend({
 
   /**
    * The current build environment for the application.  This is set by
@@ -119,7 +127,7 @@ export default Ember.Service.extend({
    * @param  {Mixed}          tags               A string or array of tags to
    *                                             listen to, one of this.tags.
    * @param  {Mixed}          environments       Optionally limit the consumer
-   *                                             to a single environment 
+   *                                             to a single environment
    *                                             (string) or a list of
    *                                             environments (array).  If not
    *                                             present, the consumer will be
@@ -141,12 +149,12 @@ export default Ember.Service.extend({
    */
   registerConsumer(consumerId, callback, levels, tags, environments, applicationContext, userContext) {
     // Convert strings parameters to an array.
-    levels = Ember.isArray(levels) ? levels : [levels];
-    tags = Ember.isArray(tags) ? tags : [tags];
+    levels = isArray(levels) ? levels : [levels];
+    tags = isArray(tags) ? tags : [tags];
     // If environment is specified, then limit the consumer to the requested
     // environment(s).
     if (environments) {
-      environments = Ember.isArray(environments) ? environments : [environments];
+      environments = isArray(environments) ? environments : [environments];
       // Check if the consumer is registering for the current environment.
       if (environments.indexOf(this.get('currentEnvironment')) === -1) {
         return;
@@ -251,6 +259,8 @@ export default Ember.Service.extend({
    *
    * Any tags included in the event object are added to the registered tags.
    *
+   * @method  registerEvents
+   * @public
    * @param  {Object} events  An object that is keyed by tags.  Within each tag
    *                          is an object of events with the keys as the
    *                          machine-readable name and the value as the human
@@ -315,7 +325,7 @@ export default Ember.Service.extend({
    */
   _sendEvent(level, tag, eventName, eventData) {
     let callbacks = this._getCallbacks(level, tag);
-    if (Ember.isEmpty(callbacks)) {
+    if (isEmpty(callbacks)) {
       return;
     }
     let event = {
@@ -338,6 +348,8 @@ export default Ember.Service.extend({
   /**
    * Helper function to retrieve a list of callbacks for a specific tag and
    * level.
+   * @method  _getCallbacks
+   * @private
    * @param  {String} level     The level/severity
    * @param  {String} tag       The tag to get callbacks for
    * @return {Array}            An array of callback methods.
@@ -353,13 +365,15 @@ export default Ember.Service.extend({
   /**
    * Helper function to return the application context at the time an event
    * occurs.
+   * @method _getApplicationContext
+   * @private
    * @return {Object} The application context
    */
   _getApplicationContext() {
     let context = {};
     let ids = Object.keys(this._applicationContextMap);
     ids.forEach((id) => {
-      context = Ember.assign(context, this._executeCallback(this._applicationContextMap[id]));
+      context = assign(context, this._executeCallback(this._applicationContextMap[id]));
     });
     return context;
   },
@@ -367,13 +381,15 @@ export default Ember.Service.extend({
   /**
    * Helper function to return the user context at the time an event
    * occurs.
+   * @method  _getUserContext
+   * @private
    * @return {Object} The user context
    */
   _getUserContext() {
     let context = {};
     let ids = Object.keys(this._userContextMap);
     ids.forEach((id) => {
-      context = Ember.assign(context, this._executeCallback(this._userContextMap[id]));
+      context = assign(context, this._executeCallback(this._userContextMap[id]));
     });
     return context;
   },
@@ -391,10 +407,10 @@ export default Ember.Service.extend({
   _executeCallback(callback, ...args) {
     let func = callback;
     let scope = this;
-    if (Ember.isArray(callback)) {
+    if (isArray(callback)) {
       [func, scope] = callback;
     }
-    if (Ember.typeOf(func) !== 'function') {
+    if (typeOf(func) !== 'function') {
       return;
     }
     return func.apply(scope, args);

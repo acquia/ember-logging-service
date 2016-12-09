@@ -4,11 +4,9 @@ import Logger from 'ember-logging-service/services/logger';
 
 module('Unit | Instance Initializers | setup-error-monitoring');
 
-/**
- * Currently unable to test the actual logging of errors due to issues with
- * errors in the testing environment.
- * http://raytiley.com/posts/ember-onerror-troll
- */
+// Currently unable to test the actual logging of errors due to issues with
+// errors in the testing environment.
+// http://raytiley.com/posts/ember-onerror-troll
 test('it configures the logger', function(assert) {
   assert.expect(3);
 

@@ -1,5 +1,11 @@
 import Ember from 'ember';
 
+const {
+  RSVP,
+  testing,
+  typeOf
+} = Ember;
+
 export default function setupErrorMonitoring(instance, config) {
   let addonConfig = config['ember-logging-service'];
   if (!addonConfig || !addonConfig.errorsEnabled) {
@@ -12,14 +18,14 @@ export default function setupErrorMonitoring(instance, config) {
     }
   });
 
-  if (Ember.testing === true) {
+  if (testing === true) {
     return;
   }
 
   Ember.onerror = function(error) {
     logError(error, logger);
   };
-  Ember.RSVP.on('error', function(error) {
+  RSVP.on('error', function(error) {
     // An aborted transition propogates an error to RSVP
     // https://github.com/emberjs/ember.js/issues/12505
     if (error.name !== 'TransitionAborted') {
@@ -36,9 +42,9 @@ export default function setupErrorMonitoring(instance, config) {
  * @return {Error}        Javascript error
  */
 function convertToError(error) {
-  if (Ember.typeOf(error) === 'object') {
+  if (typeOf(error) === 'object') {
     let msg = error.responseText || error.message || error.toString();
-    let status = error.status;
+    let { status } = error;
     error = new Error(msg);
     if (status) {
       error.status = status;
