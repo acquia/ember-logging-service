@@ -77,6 +77,10 @@ The event is structured with the following data:
 * level: the severity level (info, warn, error)
 * metadata: any additional data passed when the event was triggered
 
+The context object is structured with the following keys:
+* application: Any application-specific context provided
+* user: Any user-specific context provided
+
 ## Application/User Context
 The logger service can automatically include application and user context along
 with each event.  This is the second parameter sent to the consumer callback
@@ -91,6 +95,14 @@ error event.
 
 Both types of callbacks do not accept any parameters and return a POJO of custom
 information.
+
+After installing the ember-logging-service addon an application instance initializer
+is automatically created at `app/instance-initializers/register-logging-context.js`
+
+This provides a sample registration of empty application and user context
+callbacks.  This can be used as a guide to provide your own data into the
+placeholder callbacks or to register your own service functions to provide the
+data.
 
 ## Automatic Error Monitoring 
 When error handling is turned on, the logging service will automatically monitor
