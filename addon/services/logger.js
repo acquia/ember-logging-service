@@ -163,14 +163,19 @@ export default Service.extend({
     }
     // Build consumerMap and callbackMap.
     this.registerTags(tags);
+    let consumerMap = assign({}, this.get('_consumerMap'));
+    let callbackMap = assign({}, this.get('_callbackMap'));
     levels.forEach((level) => {
       if (this.levels.hasOwnProperty(level)) {
         tags.forEach((tag) => {
-          this._consumerMap[level][tag].push(consumerId);
+          consumerMap[level][tag].push(consumerId);
         });
       }
     });
-    this._callbackMap[consumerId] = callback;
+    callbackMap[consumerId] = callback;
+    this.set('_consumerMap', consumerMap);
+    this.set('_callbackMap', callbackMap);
+
     // Add context callbacks.
     if (applicationContext) {
       this.registerApplicationContextCallback(consumerId, applicationContext);
@@ -187,20 +192,28 @@ export default Service.extend({
    * @param  {String}   consumerId   A unique identifier for the consumer
    */
   unregisterConsumer(consumerId) {
-    let levels = Object.keys(this._consumerMap);
+    let consumerMap = assign({}, this.get('_consumerMap'));
+    let callbackMap = assign({}, this.get('_callbackMap'));
+    let applicationContextMap = assign({}, this.get('_applicationContextMap'));
+    let userContextMap = assign({}, this.get('_userContextMap'));
+    let levels = Object.keys(consumerMap);
     levels.forEach((level) => {
-      let tags = Object.keys(this._consumerMap[level]);
+      let tags = Object.keys(consumerMap[level]);
       tags.forEach((tag) => {
-        let consumers = this._consumerMap[level][tag];
+        let consumers = consumerMap[level][tag];
         let found = consumers.indexOf(consumerId);
         if (found >= 0) {
           consumers.splice(found, 1);
         }
       });
     });
-    delete this._callbackMap[consumerId];
-    delete this._applicationContextMap[consumerId];
-    delete this._userContextMap[consumerId];
+    delete callbackMap[consumerId];
+    delete applicationContextMap[consumerId];
+    delete userContextMap[consumerId];
+    this.set('_consumerMap', consumerMap);
+    this.set('_callbackMap', callbackMap);
+    this.set('_applicationContextMap', applicationContextMap);
+    this.set('_userContextMap', userContextMap);
   },
 
   /**
@@ -212,7 +225,9 @@ export default Service.extend({
    *                                   _executeCallback
    */
   registerApplicationContextCallback(id, callback) {
-    this._applicationContextMap[id] = callback;
+    let map = assign({}, this._applicationContextMap);
+    map[id] = callback;
+    this.set('_applicationContextMap', map);
   },
 
   /**
@@ -224,7 +239,9 @@ export default Service.extend({
    *                                   _executeCallback
    */
   registerUserContextCallback(id, callback) {
-    this._userContextMap[id] = callback;
+    let map = assign({}, this._userContextMap);
+    map[id] = callback;
+    this.set('_userContextMap', map);
   },
 
   /**
@@ -237,7 +254,7 @@ export default Service.extend({
   registerTags(tags) {
     let loggerTags = this.get('tags');
     let levels = Object.keys(this.get('levels'));
-    let map = this._consumerMap;
+    let map = assign({}, this.get('_consumerMap'));
     levels.forEach((level) => {
       if (this.levels.hasOwnProperty(level)) {
         tags.forEach((tag) => {
@@ -356,10 +373,10 @@ export default Service.extend({
    * @return {Array}            An array of callback methods.
    */
   _getCallbacks(level, tag) {
-    let map = this._consumerMap;
+    let map = assign({}, this.get('_consumerMap'));
     let consumers = (map[level] && map[level][tag]) ? map[level][tag] : [];
     return consumers.map((consumerId) => {
-      return this._callbackMap[consumerId] || null;
+      return this.getWithDefault(`_callbackMap.${consumerId}`, null);
     });
   },
 
@@ -372,9 +389,10 @@ export default Service.extend({
    */
   _getApplicationContext() {
     let context = {};
-    let ids = Object.keys(this._applicationContextMap);
+    let map = assign({}, this.get('_applicationContextMap'));
+    let ids = Object.keys(map);
     ids.forEach((id) => {
-      context = assign(context, this._executeCallback(this._applicationContextMap[id]));
+      context = assign(context, this._executeCallback(map[id]));
     });
     return context;
   },
@@ -388,9 +406,10 @@ export default Service.extend({
    */
   _getUserContext() {
     let context = {};
-    let ids = Object.keys(this._userContextMap);
+    let map = assign({}, this.get('_userContextMap'));
+    let ids = Object.keys(map);
     ids.forEach((id) => {
-      context = assign(context, this._executeCallback(this._userContextMap[id]));
+      context = assign(context, this._executeCallback(map[id]));
     });
     return context;
   },
