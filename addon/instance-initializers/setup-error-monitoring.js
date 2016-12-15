@@ -62,7 +62,7 @@ function convertToError(error) {
 }
 
 /**
- * Log an error to the liftLoger and ember logger.
+ * Log an error to the logging service.
  * @method  logError
  * @private
  * @param {Error} error Javascript error object
