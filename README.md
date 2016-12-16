@@ -8,6 +8,7 @@ listen for events.
 Example consumers include:
 * https://github.com/acquia/ember-logging-amplitude/ for Amplitide integration
 * https://github.com/acquia/ember-logging-bugsnag/ for Bugsnag integration
+* https://github.com/acquia/ember-logging-flash-messages/ for Flash Messages integration
 
 # Basic usage
 The core functionality of ember-logging-service is a logging service that can
