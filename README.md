@@ -1,4 +1,4 @@
-# ember-logging-service
+# ember-logging-service [![Build Status](https://travis-ci.com/acquia/ember-logging-service.svg?token=xpbhY9xz7Z9aqH5aUfgP&branch=master)](https://travis-ci.com/acquia/ember-logging-service)
 
 This addon provides a general and extensible logging service that can be used
 throughout your application.  This addon by itself will provide a basic logging
