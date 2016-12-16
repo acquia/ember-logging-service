@@ -48,7 +48,7 @@ can optionally accept additional data to be sent along with the event.
 ```
 let logger = this.get('service');
 logger.info('user', 'Log out');
-logger.warn('user', 'Cancelled save');
+logger.warning('user', 'Cancelled save');
 logger.error('error', 'API authorization error', { status: 403, foo: bar });
 ```
 
