@@ -6,7 +6,7 @@ service that can be used to trigger log events as well as register consumers to
 listen for events.
 
 Example consumers include:
-* https://github.com/acquia/ember-logging-amplitude/ for Amplitide integration
+* https://github.com/acquia/ember-logging-amplitude/ for Amplitude integration
 * https://github.com/acquia/ember-logging-bugsnag/ for Bugsnag integration
 * https://github.com/acquia/ember-logging-flash-messages/ for Flash Messages integration
 
