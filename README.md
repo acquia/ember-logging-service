@@ -1,4 +1,4 @@
-# ember-logging-service
+# ember-logging-service [![Build Status](https://travis-ci.com/acquia/ember-logging-service.svg?token=xpbhY9xz7Z9aqH5aUfgP&branch=master)](https://travis-ci.com/acquia/ember-logging-service)
 
 This addon provides a general and extensible logging service that can be used
 throughout your application.  This addon by itself will provide a basic logging
@@ -6,8 +6,9 @@ service that can be used to trigger log events as well as register consumers to
 listen for events.
 
 Example consumers include:
-* https://github.com/acquia/ember-logging-amplitude/ for Amplitide integration
+* https://github.com/acquia/ember-logging-amplitude/ for Amplitude integration
 * https://github.com/acquia/ember-logging-bugsnag/ for Bugsnag integration
+* https://github.com/acquia/ember-logging-flash-messages/ for Flash Messages integration
 
 # Basic usage
 The core functionality of ember-logging-service is a logging service that can
@@ -47,7 +48,7 @@ can optionally accept additional data to be sent along with the event.
 ```
 let logger = this.get('service');
 logger.info('user', 'Log out');
-logger.warn('user', 'Cancelled save');
+logger.warning('user', 'Cancelled save');
 logger.error('error', 'API authorization error', { status: 403, foo: bar });
 ```
 
