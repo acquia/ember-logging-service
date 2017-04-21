@@ -15,7 +15,10 @@
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acquia/ember-logging-service.git"
+  },
   "scripts": {
     "build": "ember build",
     "start": "ember server",
