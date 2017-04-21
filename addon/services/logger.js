@@ -7,7 +7,7 @@ const {
   typeOf
 } = Ember;
 
-const assign = Ember.assign || Ember.merge; // jscs:ignore
+const assign = Ember.assign || Ember.merge; // eslint-disable-line
 
 export default Service.extend({
 

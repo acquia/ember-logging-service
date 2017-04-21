@@ -76,6 +76,7 @@ function logError(error, logger, environment) {
     logger.error(logger.tags.error, logger.events.error.ERROR, { error });
   }
   // Log to console for anything but production.
+  /* eslint-disable no-console */
   if (environment !== 'production') {
     if (console.error) {
       console.error(error);
@@ -83,4 +84,5 @@ function logError(error, logger, environment) {
       console.log(error);
     }
   }
+  /* eslint-enable no-console */
 }
