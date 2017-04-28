@@ -10,6 +10,12 @@ Example consumers include:
 * https://github.com/acquia/ember-logging-bugsnag/ for Bugsnag integration
 * https://github.com/acquia/ember-logging-flash-messages/ for Flash Messages integration
 
+# Installation
+The addon can be installed using standard ember-cli syntax:
+```
+ember install ember-logging-service
+```
+
 # Basic usage
 The core functionality of ember-logging-service is a logging service that can
 be injected using Ember's standard dependency injection functionality.
