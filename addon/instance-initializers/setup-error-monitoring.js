@@ -27,15 +27,17 @@ export default function setupErrorMonitoring(instance, config) {
   };
 
   RSVP.on('error', function(error) {
-    // An aborted transition propogates an error to RSVP
-    // https://github.com/emberjs/ember.js/issues/12505
-    if (error.name === 'TransitionAborted') {
-      return;
-    }
-    // Adapter errors trigger both onerror and
-    // RSVP.on('error') so no need to handle it here.
-    if (error.isAdapterError) {
-      return;
+    if (error) {
+      // An aborted transition propogates an error to RSVP
+      // https://github.com/emberjs/ember.js/issues/12505
+      if (error.name === 'TransitionAborted') {
+        return;
+      }
+      // Adapter errors trigger both onerror and
+      // RSVP.on('error') so no need to handle it here.
+      if (error.isAdapterError) {
+        return;
+      }
     }
 
     logError(error, logger, config.environment);
