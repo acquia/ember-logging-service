@@ -1,0 +1,9 @@
+{{yield}}
+<div class="search-box">
+  {{#if clearable}}
+    <div class="post-input clear-button" {{action 'clear'}}></div>
+  {{else}}
+    <div class="post-input search-button" {{action 'search'}}></div>
+  {{/if}}
+  {{input type="text" placeholder=placeholder value=keywords change="search" enter="search"}}
+</div>

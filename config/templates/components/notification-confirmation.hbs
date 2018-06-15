@@ -1,0 +1,31 @@
+<div class="lift__cmp">
+
+  <div class="lift__cmp__notification--confirmation">
+
+    <div class="lift__cmp__notification--confirmation__dismiss" {{action "cancel"}}>
+      {{lift-icon name="close"}}
+    </div>
+
+    <div class="lift__cmp__notification--confirmation__title">
+      {{notification.title}}
+    </div>
+
+    <div class="lift__cmp__notification--confirmation__message">
+      {{if notification.message notification.message "Are you sure?"}}
+    </div>
+
+    <ul class="lift__cmp__notification--confirmation__action-list">
+
+      <li class="lift__cmp__notification--confirmation__action-list__action--confirm" {{action "confirm"}}>
+        {{if notification.confirmText notification.confirmText "Confirm"}}
+      </li>
+
+      <li class="lift__cmp__notification--confirmation__action-list__action--cancel" {{action "cancel"}}>
+        {{if notification.cancelText notification.cancelText "Cancel"}}
+      </li>
+
+    </ul>
+
+  </div>
+
+</div>

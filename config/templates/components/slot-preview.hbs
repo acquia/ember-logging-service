@@ -1,0 +1,54 @@
+{{#liquid-sync as |readyToAnimate|}}
+  {{#card-geometry done=readyToAnimate dataAttrs=geometryAttributes autoResize=false
+                   as |card|}}
+
+    <div class="slot-preview{{if showTools ' active' }}{{if blink ' blink' }}{{if controlsActive ' controls-active'}}{{unless hasControls ' is-empty'}}{{if isStaticDisplay ' static' ' personalized'}}">
+
+    {{#if card.viewportReady}}
+      {{#if (slot-controls-above card)}}
+        {{!-- Slot controls cause a "card.remeasure" when they are loaded in.
+        This allows the re-positioning in response to control changes.
+        Another idea is to change the readyToMeasure functionality such that
+        it can accept multiple triggers that resolve the promise for the initial
+        geometry call. --}}
+        {{control-slot-controls
+          goToIsolation="goToIsolation"
+          updateViewMode="updateViewMode"
+          isActive=controlsActive
+          position="top"
+          availableViewModes=availableViewModes
+          didFirstRender=card.readyToMeasure}}
+      {{/if}}
+      {{!-- Be sure to do slot control measurements after the card viewport is ready
+            in order to take the full card size into account. --}}
+      <div class="preview-area-anchor {{slot-controls-anchor card}}"></div>
+    {{/if}}
+    <div class="preview-area card-body">
+        {{style-barrier class="content-preview"
+          html=activeContent
+          isDynamic=isDynamic
+          options=slotContainer.styleBarrierOptions
+          loaded=card.remeasure
+          isStatic=isStaticDisplay}}
+      <div class="tool-overlay"></div>
+      {{#liquid-if showDropTarget class=dropTargetClass use="crossFade"}}
+        {{slot-drop-target upstreamModel=model contentDropped=(action handleDroppedData)}}
+      {{/liquid-if}}
+
+    </div>
+    {{#if card.viewportReady}}
+      {{#unless (slot-controls-above card)}}
+        {{control-slot-controls
+          goToIsolation="goToIsolation"
+          updateViewMode="updateViewMode"
+          isActive=controlsActive
+          position="bottom"
+          availableViewModes=availableViewModes
+          didFirstRender=card.readyToMeasure
+        }}
+      {{/unless}}
+    {{/if}}
+
+    </div>
+  {{/card-geometry}}
+{{/liquid-sync}}

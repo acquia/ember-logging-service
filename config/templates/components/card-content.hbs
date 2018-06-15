@@ -1,0 +1,11 @@
+{{#wrapper-card draggable=true cardType="gist" cardLayout="grid" dragStart=dragStart dragEnd=dragEnd menu=menu class="content-item"}}
+  <div class="header">
+    <h3 title={{item.title}} class="is-truncatable">{{item.title}}</h3>
+    {{#if item.updated }}
+      <div class="date is-truncatable" title={{date "h:mm A z MM/DD/YYYY" item.updated}}>
+        Updated: {{date "h:mm A z MM/DD/YYYY" item.updated}}
+      </div>
+    {{/if}}
+  </div>
+  {{preview-image image=item.previewImage}}
+{{/wrapper-card}}

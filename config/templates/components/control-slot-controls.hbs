@@ -1,0 +1,32 @@
+<div class="slot-controls-header">
+  {{lift-icon name="slot"}}{{slotName}}
+    {{#control-slot-rule-counts totalRules=totalRules tagName='span' segmentRules=totalRulesForActiveSegment}}
+    {{#tooltip-on-element side='bottom' keepInWindow=true effect='fade' class='tooltip-rule-list'}}
+      <p><span class="title">Rules:</span></p>
+      {{#each-in rulesBySegments as |segment count|}}
+      <p><span class="rule-count">{{count}}</span> {{segment}}</p>
+      {{/each-in}}
+      <p><span class="rule-count">{{totalRules}}</span> Total Rule{{if (eq totalRules 1) '' 's'}}</p>
+    {{/tooltip-on-element}}
+  {{/control-slot-rule-counts}}
+  <a class="close" {{action "close"}} title="Close">{{lift-icon name="close"}}</a>
+</div>
+<div class="slot-controls">
+  <div class="slot-controls-control slot-expand"><a title="Expand Slot" {{action "expand"}}>{{lift-icon name="expand"}}Expand Slot</a></div>
+  {{#if availableViewModes.length}}
+  <div class="slot-controls-control slot-view-mode"><label>Layout</label>
+    {{#lift-select
+      options=availableViewModes
+      selected=currentViewMode
+      disabled=disableViewModeSelection
+      searchEnabled=false
+      verticalPosition=dropdownVerticalPosition
+      registerAPI=(action "viewModeSelectAPI")
+      onchange=(action "onViewModeSelect") as |viewMode|}}
+      {{viewMode.label}}
+    {{/lift-select}}
+  </div>
+  {{/if}}
+</div>
+{{!-- Computed property to watch for changes in the control active status --}}
+{{controlsMonitor}}

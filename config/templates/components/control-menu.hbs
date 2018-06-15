@@ -1,0 +1,15 @@
+{{#if showComplexMenu}}
+<div class="menu-button" {{action 'toggleMenu'}}>
+  {{lift-icon name="menu-vertical"}}
+</div>
+{{/if}}
+
+{{#if isSystem }}
+  <div class="menu-link system-menu" {{action 'toggleMenu'}}>Menu</div>
+{{/if}}
+
+<ul class="menu-options {{if isExpanded 'is-expanded'}} {{if showSimpleMenu 'menu-simple'}}">
+  {{#each menu as |menu|}}
+    {{control-menu-item menu=menu menuItemSelected=(action "selectMenu") currentMenu=currentMenu}}
+  {{/each}}
+</ul>

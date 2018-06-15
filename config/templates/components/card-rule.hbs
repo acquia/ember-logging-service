@@ -1,0 +1,56 @@
+{{#wrapper-card cardType=cardType menu=(if (not-eq cardType 'alert') menu) sortable=sortable menuItemSelected='menuAction' overrideMenu="complex" cardSelected="selectRule"}}
+  {{#unless isExpanded}}
+    {{#preview-image image=rule.previewImage preventFallback=showAlert}}
+      {{#if showAlert}}
+      <div class="alert-notice">{{liftTools.currentNotification.message}}</div>
+      {{/if}}
+    {{/preview-image}}
+  {{/unless}}
+  <div class="rule-summary">
+    <div class="rule-close" {{action 'closeCard'}}>{{lift-icon name="close"}}</div>
+    <div class="rule-name" title={{rule.label}}>
+      {{lift-icon name=rule.typeName}}{{rule.label}}
+    </div>
+    <div class="rule-segment">{{lift-icon name="segment"}}{{rule.segmentName}}</div>
+    {{#if showSlotLabel}}
+      <div class="rule-slot">{{lift-icon name="slot"}}{{rule.slot.label}}</div>
+      {{#unless rule.slot.foundInMarkup}}
+        {{#unless showAlert}}
+          <div class="error no-markup">{{lift-icon name="error"}}Slot code not found on page.</div>
+        {{/unless}}
+      {{/unless}}
+    {{/if}}
+  </div>
+  {{#if showDetails}}
+    <div class="rule-details">
+        {{#lift-tabs activeTab=activeTab callback=allowNavigation}}
+        {{#unless rule.isDynamic}}
+            {{#lift-tab-content title="Content" id=(concat 'content-' rule.id)}}
+              {{card-rule-content rule=rule previewContent='previewContent'}}
+            {{/lift-tab-content}}
+        {{/unless}}
+        {{#lift-tab-content title="Goals" id=(concat 'goals-' rule.id)}}
+          {{card-rule-goals rule=rule allGoals=goals}}
+        {{/lift-tab-content}}
+        {{#lift-tab-content title="Settings" id=(concat 'settings-' rule.id)}}
+          {{card-rule-settings rule=(mut rule) segments=segments}}
+        {{/lift-tab-content}}
+      {{/lift-tabs}}
+      {{#control-form-actions isSaving=isSaving isError=isError errorMessage=errorMessage}}
+        <button {{action 'saveRuleDetails' rule}}>Save</button>
+        <a {{action 'cancelRuleDetails'}}>Cancel</a>
+        <a {{action 'deleteRule'}}>Delete</a>
+      {{/control-form-actions}}
+    </div>
+  {{/if}}
+  {{#if showReport}}
+    {{rule-report rule=rule}}
+  {{/if}}
+  {{#if showAlert}}
+  <div class="rule-alert">
+    <div class="actions">
+      <div class="button" {{action 'closeCard'}}>Dismiss</div>
+    </div>
+  </div>
+  {{/if}}
+{{/wrapper-card}}

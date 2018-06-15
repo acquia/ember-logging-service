@@ -1,0 +1,30 @@
+<div class="lift__cmp__card-rule-settings__basic">
+  <label>Rule Name</label>
+  {{validated-input type="text" model=rule valuePath='label' name="label" value=rule.label}}
+  <label>Segment</label>
+  {{#lift-select
+    options=segments
+    allowClear=true
+    placeholder="Everyone"
+    selected=rule.segment
+    searchField="name"
+    repositionOnScroll=true
+    onchange=(action "selectSegment") as |segment|}}
+    {{segment.name}}
+  {{/lift-select}}
+</div>
+{{#if rule.isTesting}}
+  <div class="lift__cmp__card-rule-settings__abtest">
+    {{rule-ab-test-distribution-form
+      rule=rule
+      valuePath='testConfig'}}
+  </div>
+{{/if}}
+{{#if rule.isDynamic}}
+  <div class="lift__cmp__card-rule-settings__dynamic">
+    {{rule-dynamic-form
+      availableViewModes=rule.viewModeOptions
+      rule=rule
+      valuePath='testConfig'}}
+  </div>
+{{/if}}

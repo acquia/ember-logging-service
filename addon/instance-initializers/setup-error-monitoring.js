@@ -23,6 +23,9 @@ export default function setupErrorMonitoring(instance, config) {
   }
 
   Ember.onerror = function(error) {
+    if (Ember.testing) {
+      throw error;
+    }
     logError(error, logger);
   };
 

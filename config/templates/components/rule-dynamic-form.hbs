@@ -1,0 +1,46 @@
+<label class="lift__cmp__rule-dynamic__label">Rule Type: Recommendation</label>
+
+<div class="form-group">
+  <label>Algorithm{{control-help help="Algorithm refers to the method Lift will use to select and sort content within the recommendation"}}</label>
+  {{#lift-select
+    options=algorithms
+    selected=rule.testConfig.dynamic.algorithm
+    allowClear=false
+    searchEnabled=false
+    repositionOnScroll=true
+    onchange=(action 'selectAlgorithm')
+    as |algorithm|}}
+    {{get algorithmOptions algorithm}}
+  {{/lift-select}}
+</div>
+<div class="form-group">
+  <label>Content Layout{{control-help help="Content layout refers to the type Lift will use to filter content within the recommendation"}}</label>
+  {{#lift-select
+    options=availableViewModes
+    selected=currentViewMode
+    allowClear=false
+    searchEnabled=false
+    repositionOnScroll=true
+    onchange=(action 'selectViewModeId')
+    as |viewMode|}}
+    {{viewMode.label}}
+  {{/lift-select}}
+</div>
+<div class="form-group">
+  <label>Number of content items</label>
+  {{input
+    type='number'
+    min='1'
+    max='5'
+    value=(mut contentCount)
+    change=(action 'setNumberOfItems' contentCount)
+  }}
+</div>
+<div class="form-group">
+  <label>Exclude Previously Viewed Content</label>
+  {{lift-switch
+    isEnabled=(mut excludeViewedContent)
+    style="button"
+    onLabel="Yes"
+    offLabel="No"}}
+</div>

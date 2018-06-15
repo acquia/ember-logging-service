@@ -1,0 +1,144 @@
+{{#wrapper-card
+  isExpanded=true
+}}
+  <div class="search-summary">
+      <div class="search-close" {{action hide}}>{{lift-icon name="close"}}</div>
+      <div class="title">{{lift-icon name="filter"}} Filter & Search Content</div>
+  </div>
+
+  <div class="search-details">
+    <label>Keywords</label>
+    {{input type='text'
+      class='criterion-input'
+      value=keywords
+      placeholder='Search for Content'
+      enter=(action 'search')
+    }}
+
+    <label>Sources</label>
+    {{#lift-select-multiple
+      class='criterion-input criterion-origins'
+      placeholder='Select Sources'
+      onchange=(action 'setOrigins')
+      options=originsNamesOptions
+      selected=originsNames
+      searchEnabled=true
+      as |option|
+    }}
+      {{option}}
+    {{/lift-select-multiple}}
+
+    <label>Tags</label>
+    {{#lift-select-multiple
+      class='criterion-input criterion-tags'
+      placeholder='Select Tags'
+      onchange=(action 'setTags')
+      options=tagsNamesOptions
+      selected=tagsNames
+      searchEnabled=true
+      as |option|
+    }}
+      {{option}}
+    {{/lift-select-multiple}}
+
+    <label>Content Type (comma separated)</label>
+    {{input type='text'
+      class='criterion-input'
+      value=contentType
+      placeholder='Select Content Types'
+      enter=(action 'search')
+    }}
+
+    <label>Date(s)</label>
+    {{#basic-dropdown as |dropdown|}}
+      <div class='dates-dropdown-trigger'>
+        {{#dropdown.trigger}}
+          <input
+            class="criterion-input"
+            value={{displayDate}}
+            placeholder="Select Dates"
+            readonly>
+        {{/dropdown.trigger}}
+      </div>
+
+      {{#dropdown.content
+        class="range-calendar"
+        renderInPlace=true
+      }}
+        <div class="date-select">
+          {{#component calendarType
+            center=center
+            onCenterChange=(action (mut center) value="moment")
+            selected=(if (eq dateMode 'range') range selectedDate)
+            onSelect=(if (eq dateMode 'range') (action (mut range) value="moment") (action (mut selectedDate) value="moment"))
+            as |calendar|
+          }}
+            {{calendar.nav}}
+            {{calendar.days}}
+          {{/component}}
+
+          {{#if showTimePeriodDropdown}}
+            <label>Time Period</label>
+            {{#lift-select
+              onchange=(action 'setDayPeriod')
+              options=periodOptions
+              searchEnabled=false
+              selected=currentPeriod
+              as |option|
+            }}
+              {{option}}
+            {{/lift-select}}
+          {{/if}}
+        </div>
+        <div class="type-select">
+          {{#radio-button
+            value="range"
+            groupValue=dateMode
+            changed="resetDateValues"
+          }}
+            Range
+          {{/radio-button}}
+          {{#radio-button
+            value="start"
+            groupValue=dateMode
+            changed="resetDateValues"
+          }}
+            Before
+          {{/radio-button}}
+          {{#radio-button
+            value="end"
+            groupValue=dateMode
+            changed="resetDateValues"
+          }}
+            After
+          {{/radio-button}}
+          {{#radio-button
+            value="period"
+            groupValue=dateMode
+            changed="resetDateValues"
+          }}
+            Period
+          {{/radio-button}}
+        </div>
+      {{/dropdown.content}}
+    {{/basic-dropdown}}
+  </div>
+
+  {{#control-form-actions}}
+      {{#if isSavingFilter}}
+        <label>Filter Name</label>
+        <div class="filter-search__input">
+          {{input type='text'
+            class='criterion-input'
+            value=filterName
+          }}
+          <button {{action 'saveFilter'}} disabled={{hasNoFilterName}}>Save Filter</button>
+        </div>
+      {{else}}
+        <button {{action 'search'}}>Filter Content</button>
+        <button {{action 'toggleSave'}}>Save Filter</button>
+        <a {{action clear}}>Clear</a>
+      {{/if}}
+
+  {{/control-form-actions}}
+{{/wrapper-card}}

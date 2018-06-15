@@ -1,0 +1,59 @@
+{{#if showFilter}}
+  {{filter-search
+    keywords=keywords
+    origins=origins
+    tags=tags
+    contentType=contentType
+    range=range
+    search=(action 'search')
+    clear=(action 'clear')
+    hide=(action 'hideFilter')
+  }}
+{{else}}
+  <div class="keyword-search">
+    <button {{action 'showFilter'}}>{{lift-icon name='filter'}} Filter</button>
+    {{control-search-input
+      placeholder='Search for Content'
+      keywords=keywords
+      clearable=isClearable
+      search=(action 'search')
+      clear=(action 'clear')
+    }}
+  </div>
+{{/if}}
+
+{{#if model.searchResults}}
+<div class="content-cards search-results">
+  <div class="cards-header">
+    <div class="title">{{searchResultsLabel}}</div>
+  </div>
+  {{#control-scrolling}}
+    <div class="scrolling-results">
+      {{#each (union model.searchResults) as |item|}}
+        {{card-content
+          item=item
+          dragStart=(action dragStart item)
+          dragEnd=(action dragEnd)
+        }}
+      {{/each}}
+    </div>
+    {{control-infinity-loader
+      infinityModel=model.searchResults
+      scrollable=".is-scrollable"
+      loadingText="Fetching Search Results"
+      loadedText=""
+    }}
+  {{/control-scrolling}}
+  </div>
+{{/if}}
+{{#unless model.searchResults}}
+<div class="content-cards no-results">
+  {{#if model.error}}
+  An error occurred performing the search. Try a new search above.
+  {{else if clearable}}
+  No matching results. Try again.
+  {{else}}
+  Publish content to Content Hub in order to begin creating Rules. Check your Content Hub configuration page or contact your site administrator for additional details.
+  {{/if}}
+</div>
+{{/unless}}

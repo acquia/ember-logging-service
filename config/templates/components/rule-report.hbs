@@ -1,0 +1,103 @@
+<div class="report-header">
+  <div class="headline">
+    <div class="title">Content Performance</div>
+    <a target="_blank" class="help-text" href="https://docs.acquia.com/lift/3/rule/reports">How to read these reports {{lift-icon name="documentation"}}</a>
+  </div>
+  {{#lift-select
+    options=goals
+    allowClear=true
+    placeholder="All goals"
+    selected=goal
+    repositionOnScroll=true
+    onchange=(action "selectGoal") as |goal|}}
+    {{goal.name}}
+  {{/lift-select}}
+</div>
+<div class="report-options">
+  {{#lift-select
+    options=reportFormatter.units
+    selected=unit
+    searchEnabled=false
+    class="unit-picker"
+    repositionOnScroll=true
+    onchange=(action "selectUnit") as |unit|}}
+    {{unit.label}}
+  {{/lift-select}}
+  <div class="date-picker">
+    <div class="date-picker-input">
+      {{#basic-dropdown
+        calculatePosition=calculatePosition
+        registerAPI=(action 'registerAPI')
+        as |dropdown|}}
+        <input type="text"
+          class="ember-basic-dropdown-trigger"
+          data-ebd-id="{{dropdown.uniqueId}}-trigger"
+          onclick={{dropdown.actions.toggle}}
+          placeholder="Select range"
+          value={{displayDate}}
+          readonly>{{lift-icon name="calendar"}}
+
+        {{#dropdown.content
+          class="date-select"
+          renderInPlace=true
+        }}
+          {{#power-calendar-range
+            center=center
+            onCenterChange=(action (mut center) value='date')
+            onSelect=(action 'setDate' value='date')
+            selected=range
+            as |calendar|}}
+            {{calendar.nav}}
+            {{#calendar.days
+              maxDate=maxEndDate
+              as |day|
+            }}
+              <span>{{day.number}}</span>
+            {{/calendar.days}}
+          {{/power-calendar-range}}
+        {{/dropdown.content}}
+      {{/basic-dropdown}}
+    </div>
+  </div>
+</div>
+<div class="daily-graph">
+  {{chartist-chart ratio="ct-octave" data=dailyGraphData options=dailyGraphOptions}}
+  <div class="daily-graph-utc">
+    Timezone: UTC
+  </div>
+</div>
+{{#if overallTableData}}
+  <div class="content-table">
+    <div class="table-header">
+      <div class="title">Content</div>
+      {{#lift-select
+        options=performances
+        selected=performance
+        searchEnabled=false
+        repositionOnScroll=true
+        onchange=(action "selectPerformance") as |performance|}}
+        {{performance.label}}
+      {{/lift-select}}
+    </div>
+      <div class="content-list">
+      {{#if performanceSummary}}
+        <div class="performance-summary content">
+          <div class="content-name is-truncatable">
+            <div class="title is-truncatable">Totals</div>
+          </div>
+          <div class="content-performance">{{performanceSummary}}</div>
+        </div>
+      {{/if}}
+      {{#each overallTableData as |contentData index|}}
+        <div class="content">
+          <div class="content-legend"><span class="content-legend-{{index}}"></span></div>
+          <div class="content-name">
+            <div class="title">{{contentData.contentTitle}}</div>
+            <div class="layout"><span>Layout</span>: {{contentData.viewModeLabel}}</div>
+          </div>
+          <div class="content-performance">{{contentData.performance}}</div>
+        </div>
+      {{/each}}
+      </div>
+  </div>
+{{/if}}

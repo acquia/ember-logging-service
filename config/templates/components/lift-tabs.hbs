@@ -1,0 +1,10 @@
+<div class="lift__cmp__tabs__items">
+  {{#each tabs as |tab|}}
+    <a class="lift__cmp__tabs__items__item lift__cmp__tabs__items__item--{{tab.id}} {{if (eq tab.id activeTab) ' lift__cmp__tabs__items__item--active'}} {{if tab.disabled ' lift__cmp__tabs__items__item--disabled'}}" {{action 'setActive' tab}}>
+      {{tab.title}}
+    </a>
+  {{/each}}
+</div>
+<div class="lift__cmp__tabs__content">
+  {{yield}}
+</div>

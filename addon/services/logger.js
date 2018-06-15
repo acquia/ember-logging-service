@@ -1,4 +1,4 @@
-import { assign, merge } from '@ember/polyfills';
+import { assign } from '@ember/polyfills';
 import { isArray } from '@ember/array';
 import Service from '@ember/service';
 import { typeOf, isEmpty } from '@ember/utils';

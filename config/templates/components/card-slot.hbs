@@ -1,0 +1,30 @@
+{{#wrapper-card cardType=slotCardType menu=menu menuItemSelected='menuAction' cardSelected="selectSlot" as |card|}}
+  {{#if showHeader}}
+  <div class="slot-header">
+    <div class="slot-name">{{lift-icon name="slot"}} {{slot.label}}</div>
+    {{#unless slot.foundInMarkup}}
+    <div class="error no-markup">{{lift-icon name="error"}}Slot code not found on page.</div>
+    {{/unless}}
+  </div>
+  {{/if}}
+  {{#if (eq slotCardType 'detail')}}
+  <div class="slot-details">
+    <div class="inputs">
+      <label>Slot Name</label>
+      {{validated-input type="text" model=slot valuePath='label' placeholder="homepage Hero Banner" preventMessageUntilSave=preventMessageUntilSave saveAttempted=didValidate}}
+      <label>Slot Pages (Site ID: {{siteId}}) {{control-help help="Specify pages by using one path per line. The current page is entered by default. The '*' character is a wildcard. Example paths are <i>/blog/sample.html</i> for the blog sample.html page and <i>/blog/*</i> for every page within the blog section."}}</label>
+      {{textarea value=slotPages name="slotPages" rows="4"}}
+      {{#if showEmbed}}
+        <p>Place this slot on your page using either the embed code or by entering a CSS selector in the field below.</p>
+        <span class="embed-copy"><a target="blank" href="https://docs.acquia.com/lift/exp-builder/slots/embed">How to use CSS selectors {{lift-icon name="external-link"}}</a></span><label>CSS Selectors (Optional)</label>
+        {{validated-input type="text" model=slot valuePath="cssSelector"}}
+        <span class="embed-copy"><a {{action 'copyEmbedCode'}}>Copy to Clipboard</a></span><label>Embed Code {{control-help help="Copy the embed code below and paste it into the markup of your site in order to place this slot on a page."}}</label>
+        {{textarea value=slot.embedCode name="slotEmbedCode" readonly=true}}
+      {{/if}}
+    </div>
+    {{#control-form-actions isSaving=isSaving isError=isError errorMessage=errorMessage}}
+      <button {{action 'save'}}>{{saveText}}</button><a {{action 'cancel'}}>Cancel</a>{{#unless slot.isNew}}<a {{action 'deleteSlot'}}>Delete Slot</a>{{/unless}}
+    {{/control-form-actions}}
+  </div>
+  {{/if}}
+{{/wrapper-card}}

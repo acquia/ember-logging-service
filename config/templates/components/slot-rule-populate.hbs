@@ -1,0 +1,24 @@
+<div class="slot-rule-populate-view" >
+  <div class="slot-rule-summary">
+    <div class="slot-rule-close" {{action 'cancel'}}>{{lift-icon name="close"}}</div>
+    <div class="slot-name is-truncatable">{{lift-icon name="slot"}}Slot: {{currentSlot.label}}</div>
+    <div class="segment-name is-truncatable">{{lift-icon name="segment"}}Segment: {{segmentName}}</div>
+  </div>
+  <div class="content-display">
+    {{preview-image image=currentContent.previewImage}}
+    <div class="title is-truncatable">{{currentContent.title}}</div>
+  </div>
+  <div class="section-break">{{lift-icon name="angle-down"}}</div>
+  <button class="new-rule" {{action 'createRule'}}>Create New Rule</button>
+  <div class="slot-rule-populate-actions is-scrollable">
+    <div class="slot-display">
+      {{#each sortedRules as |rule|}}
+        {{slot-rule-rule
+          rule=rule
+          content=currentContent
+          addCurrentContentToRule=(action "addCurrentContentToRule")
+          replaceContentInRule=(action "replaceContentInRule")}}
+      {{/each}}
+    </div>
+  </div>
+</div>

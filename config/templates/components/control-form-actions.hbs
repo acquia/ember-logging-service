@@ -1,0 +1,13 @@
+<div class="triggers">
+{{yield}}
+</div>
+{{#if isSaving}}
+	<div class="save-indicator">
+	{{lift-icon name="saving"}} <span>Saving...</span>
+	</div>
+{{/if}}
+{{#if isError}}
+	<div class="save-error">
+	{{lift-icon name="error"}}&nbsp;{{errorMessage}}
+	</div>
+{{/if}}

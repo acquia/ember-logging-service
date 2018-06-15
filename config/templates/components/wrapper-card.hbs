@@ -1,0 +1,17 @@
+{{#if sortable}}
+ 	<div class="move-icon">
+    {{lift-icon name="move-vertical"}}
+    </div>
+{{/if}}
+{{#if isExpanded}}
+	<div class="card-contents">
+	{{yield}}
+	</div>
+{{else}}
+	<div class="card-contents" {{action "cardSelected"}}>
+	{{yield}}
+	</div>
+{{/if}}
+{{#if showMenu}}
+	{{control-menu menu=(mut menu) menuItemSelected='menuItemSelected' overrideMenu=overrideMenu}}
+{{/if}}

@@ -1,0 +1,14 @@
+<div class="lift__cmp">
+  <div class="lift__cmp__notification--failure">
+    <div class="lift__cmp__notification--failure__close" {{action 'close'}}>{{lift-icon name="close"}}</div>
+    <div class="lift__cmp__notification--failure__title">
+      {{notification.title}}
+    </div>
+    <div class="lift__cmp__notification--failure__message">
+      {{notification.message}}
+    </div>
+    <div class="lift__cmp__notification--failure__actions">
+    <button class="lift__cmp__notification--failure__actions__action--confirm" {{action 'close'}}>Okay</button>
+    </div>
+  </div>
+</div>

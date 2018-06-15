@@ -1,0 +1,38 @@
+<div class="goal-instructions">A goal is a specific objective created for visitors of your site. Adding goals to a rule allows Lift to track whether the goals attached to the rule are met when the rule is shown to visitors. New goals can be created in Lift Web under the Goals tab.</div>
+{{#unless allGoals}}
+<div class="no-results goal-results">There are no goals available for this account. Create new goals in Lift Web.</div>
+{{/unless}}
+{{#if allGoals}}
+  <a {{action 'addGoalChooser'}} class="add-goal {{if addingGoalsDisabled 'is-disabled'}}">Add Goal to rule</a>
+  {{#each rule.goals as |goal index|}}
+  <div class="goal-form">
+    <span class="goal-counter">{{plus index 1}}</span>
+    {{#lift-select
+      options=goalOptions
+      selected=goal
+      onchange=(action "changeGoal")
+      triggerClass=(concat 'goal-index-' index)
+      repositionOnScroll=true
+      noMatchesMessage="All goals already added"
+      as |goalOption|}}
+      {{goalOption.name}}
+    {{/lift-select}}
+    <a {{action 'removeGoal' goal}} class="remove-goal">Remove Goal</a>
+  </div>
+  {{/each}}
+  {{#liquid-if showingAddGoalForm}}
+  <div class="goal-form add-form">
+    <span class="goal-counter">{{addGoalIndex}}</span>
+    {{#lift-select
+      options=goalOptions
+      placeholder="--Select Goal--"
+      onchange=(action "addGoal")
+      noMatchesMessage="All goals already added"
+      triggerClass="goal-index-add"
+      repositionOnScroll=true
+      as |goalOption|}}
+      {{goalOption.name}}
+    {{/lift-select}}
+  </div>
+  {{/liquid-if}}
+{{/if}}

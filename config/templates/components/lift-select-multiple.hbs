@@ -1,0 +1,17 @@
+{{#power-select-multiple
+  allowClear=allowClear
+  disabled=disabled
+  noMatchesMessage=noMatchesMessage
+  onchange=(action "onChange")
+  onopen=(action "onOpen")
+  onclose=(action "onClose")
+  options=options
+  placeholder=placeholder
+  registerAPI=(action "registerAPI")
+  searchEnabled=searchEnabled
+  selected=selected
+  triggerClass=triggerClass
+  verticalPosition=verticalPosition
+  as |optionItems|}}
+  {{yield optionItems}}
+{{/power-select-multiple}}

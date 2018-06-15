@@ -1,0 +1,13 @@
+<button disabled={{inCreateMode}} {{action 'createSlot'}}>Create New Slot</button>
+
+{{#if slots}}
+  <div class="search-results slot-results">
+  {{#control-scrolling}}
+    {{#each slots as |slot|}}
+      {{card-slot slot=slot cardType="gist" cancel='cancelSlot' save='saveSlot' delete='deleteSlot' select='selectSlot'}}
+    {{/each}}
+  {{/control-scrolling}}
+  </div>
+{{else}}
+	<div class="no-results slot-results">There are no slots on this page.  Add a slot to begin customizing your website's experience.</div>
+{{/if}}

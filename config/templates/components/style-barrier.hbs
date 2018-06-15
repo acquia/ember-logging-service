@@ -1,0 +1,7 @@
+{{#liquid-sync as |ready|}}
+  {{raw-style-barrier
+    content=embeddedContent
+    options=options
+    loaded=(call-all attrs.loaded ready)
+  }}
+{{/liquid-sync}}

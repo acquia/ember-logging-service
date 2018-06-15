@@ -1,0 +1,14 @@
+{{#each rule.content as |contentView|}}
+<div class="rule-contents">
+  {{preview-image image=contentView.previewImage}}
+  <div class="content-title">
+    <div class="title">{{contentView.contentTitle}}</div>
+    <div class="layout"><span>Layout</span>: {{contentView.viewMode.label}}</div>
+  </div>
+  <div class="content-actions">
+    {{#if rule.slot.foundInMarkup}}
+      <a {{action 'previewContent' contentView}}>Preview</a>
+    {{/if}}
+  </div>
+</div>
+{{/each}}

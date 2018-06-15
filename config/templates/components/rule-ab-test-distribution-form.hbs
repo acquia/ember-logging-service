@@ -1,0 +1,38 @@
+<label class="lift__cmp__rule-ab-test-distribution__label">Rule Type: A/B Test</label>
+
+<div class="lift__cmp__rule-ab-test-distribution__switch">
+  <span>Testing Distribution</span>
+  {{lift-switch
+    isEnabled=isCustom
+    onChange=(action 'setABTestMode')
+    style="button"
+    onLabel="Custom"
+    offLabel="Even"}}
+</div>
+
+<div class="lift__cmp__rule-ab-test-distribution__content">
+  {{#each rule.content as |contentView|}}
+    <div class="lift__cmp__rule-ab-test-distribution__content__item">
+      <div class="lift__cmp__rule-ab-test-distribution__content__item__distribution">
+        {{input
+          disabled=rule.isTestProbabilityEven
+          value=(mut (get probabilityMap (concat contentView.contentId '||' contentView.viewMode.code)))
+          key-up=(action "syncProbability" contentView.id contentView.viewMode)}}
+      </div>
+      <div class="lift__cmp__rule-ab-test-distribution__content__item__text">
+        <div class="lift__cmp__rule-ab-test-distribution__content__item__text__title">
+         {{contentView.contentTitle}}
+        </div>
+        <div class="lift__cmp__rule-ab-test-distribution__content__item__text__viewmode">
+          <span>Layout:</span> {{contentView.viewMode.label}}
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
+
+{{#if (v-get rule 'testConfig' 'isInvalid')}}
+  <div class="lift__cmp__rule-ab-test-distribution__content__error input-error">
+    <div class="error">{{v-get rule 'testConfig' 'message'}}</div>
+  </div>
+{{/if}}
