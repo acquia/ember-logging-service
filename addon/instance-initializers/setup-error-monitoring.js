@@ -1,9 +1,9 @@
+import RSVP from 'rsvp';
+import { typeOf } from '@ember/utils';
 import Ember from 'ember';
 
 const {
-  RSVP,
-  testing,
-  typeOf
+  testing
 } = Ember;
 
 export default function setupErrorMonitoring(instance, config) {

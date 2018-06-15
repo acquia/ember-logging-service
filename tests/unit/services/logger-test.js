@@ -1,8 +1,6 @@
+import { run } from '@ember/runloop';
 import { module, test } from 'ember-qunit';
 import Logger from 'ember-logging-service/services/logger';
-import Ember from 'ember';
-
-const { run } = Ember;
 
 let service;
 module('Unit | Service | logger', {
