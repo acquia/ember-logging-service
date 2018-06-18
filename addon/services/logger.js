@@ -1,13 +1,7 @@
-import Ember from 'ember';
-
-const {
-  isArray,
-  isEmpty,
-  Service,
-  typeOf
-} = Ember;
-
-const assign = Ember.assign || Ember.merge; // eslint-disable-line
+import { assign } from '@ember/polyfills';
+import { isArray } from '@ember/array';
+import Service from '@ember/service';
+import { typeOf, isEmpty } from '@ember/utils';
 
 export default Service.extend({
 

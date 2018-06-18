@@ -1,9 +1,9 @@
+import RSVP from 'rsvp';
+import { typeOf } from '@ember/utils';
 import Ember from 'ember';
 
 const {
-  RSVP,
-  testing,
-  typeOf
+  testing
 } = Ember;
 
 export default function setupErrorMonitoring(instance, config) {
@@ -23,19 +23,24 @@ export default function setupErrorMonitoring(instance, config) {
   }
 
   Ember.onerror = function(error) {
+    if (Ember.testing) {
+      throw error;
+    }
     logError(error, logger);
   };
 
   RSVP.on('error', function(error) {
-    // An aborted transition propogates an error to RSVP
-    // https://github.com/emberjs/ember.js/issues/12505
-    if (error.name === 'TransitionAborted') {
-      return;
-    }
-    // Adapter errors trigger both onerror and
-    // RSVP.on('error') so no need to handle it here.
-    if (error.isAdapterError) {
-      return;
+    if (error) {
+      // An aborted transition propogates an error to RSVP
+      // https://github.com/emberjs/ember.js/issues/12505
+      if (error.name === 'TransitionAborted') {
+        return;
+      }
+      // Adapter errors trigger both onerror and
+      // RSVP.on('error') so no need to handle it here.
+      if (error.isAdapterError) {
+        return;
+      }
     }
 
     logError(error, logger, config.environment);
