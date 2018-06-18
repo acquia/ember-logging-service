@@ -1,9 +1,0 @@
-{{#if hasBlock}}
-  {{yield}}
-{{else}}
-  {{#if infinityModel.reachedInfinity}}
-    <span>{{loadedText}}</span>
-  {{else}}
-    {{loading-indicator message=loadingText}}
-  {{/if}}
-{{/if}}
